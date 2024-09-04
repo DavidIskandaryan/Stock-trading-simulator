@@ -18,8 +18,6 @@ from alpaca_trade_api.rest import TimeFrame
 #import that lets you display a text widjets with scrollable feature
 import tkinter.scrolledtext as st
 
-
-
 apikey = "PKSCR3CZ22BE7I53O5WS"
 seckey = "xRVNb0PdHO7v2OmNx0HRAWF8wqwS2e6zKUjvl1oo"
 #API endpoint URL
@@ -29,8 +27,6 @@ api = tradeapi.REST(apikey, seckey, url, api_version='v2')
 # Stock movment timeframe is from week_start to week_end.
 week_start = "2016-01-01"
 week_end = "2016-01-07"
-
-
 
 #algorithm for changing the month and year when needed after moving the days in the string
 def change_month(day, year, month):
@@ -50,8 +46,6 @@ def change_month(day, year, month):
             day = '01'
     return day, year, month
 
-
-  
 #algorithm for moving the day part in the string
 def move_days(date_split):
     #splits the string up for separate strings for day, month, year
@@ -114,8 +108,6 @@ def move_days(date_split):
 #sets AI outcome as 1000000 as a starting point of the balance avalable for AI
 AI_outcome=100000
 
-
-
 #class for the AI
 class AI():
     def __init__(self):
@@ -138,7 +130,6 @@ class AI():
         #the proportion of the balance that should be invested
         self.AI_Balance_presentage=0.5
 
-      
     #investment proportion change to AI_balance_presentage generator function
     def inv_generator(self):
       #generates an average of all values in self.Machine_learning list
@@ -150,28 +141,6 @@ class AI():
       average=sum/(len(self.Machine_learning_list))
       return average
 
-
-      
-      '''val=self.Machine_learning_list.pop()
-      if(len(self.Machine_learning_list)==0):
-        if(self.AI_Balance_presentage*inv>=1):
-          self.AI_Balance_presentage=0.25
-          inv=1
-          return inv
-        else:
-          return inv
-      else:
-        if(val>=1):
-          inv=inv*(1+(val-1)*((1/(len(self.AI_outcome_list)))*decay))
-          decay=decay+1
-          return self.inv_generator(inv, decay)
-        else:
-          inv=inv*(1-(val*((1/(len(self.AI_outcome_list)))*decay)))
-          decay=decay+1
-          return self.inv_generator(inv, decay)'''
-
-
-      
     #algorithm for buying the stock for the AI
     def algorithm(self, x_points, y_points):
       #gets the current date in number of weeks passes since plotting started
@@ -204,8 +173,6 @@ class AI():
       #assigns the global value for the ai outcome to self.AI_outcome value for the class
       AI_outcome=self.AI_outcome
 
-      
-      
     #function for selling the assets every week in order to make a new decesion on the amount that should be invested  
     def AI_sell(self, x_points, y_points):
       #gets the current date in number of weeks passes since plotting started
@@ -218,8 +185,6 @@ class AI():
       self.AI_shares_held=0
       #aoutcome list is the proportion of profit or loss made and is appended to the list eache time the AI sells
       self.AI_outcome_list.append(self.AI_balance/self.AI_outcome)
-
-
       
 #graph class for the live plotting buy, sell, and all other functionalities for the user 
 class graph:
@@ -255,8 +220,6 @@ class graph:
         #variable that indicates whether a stock has been found for plotting or not
         self.valid_stock=False
         
-
-      
     #main function that holds all other functions for plotting and user interface also displaying the Leaderboard
     def app(self):
         #creates a tkinter window 
@@ -272,8 +235,6 @@ class graph:
         AI_textchange = StringVar()
         AI_textchange.set(AI_outcome)
 
-      
-      
         #function for hiding the stock name box, player name boxe, text thats says what to enter in each box,and the search button after the values have been recorded and display error messege if stock not found   
         def hide_me(button):
             #recordes the name entered by the user for the stock
@@ -327,8 +288,6 @@ class graph:
         graph = FigureCanvasTkAgg(fig, master=window)
         graph.get_tk_widget().pack(side="top", fill='both', expand=True)
 
-      
-      
         #function that plots the graph and displayes the Leaderboard when done plotting
         def plotter():
             #makes the start and end date global variables
@@ -450,8 +409,6 @@ class graph:
                         Stock_AI.AI_sell(self.x_points,self.y_points)
                         b.pack_forget()
 
-                      
-                      
         #merge sort algorithm for the list of values
         def merge_sort(myList):
           if len(myList) > 1:
@@ -489,9 +446,7 @@ class graph:
               myList[k]=right[j]
               j += 1
               k += 1
-
-
-              
+     
         #function for the user to buy stocks
         def buy():
             #the shares have not been sold
@@ -521,8 +476,6 @@ class graph:
                 print("Incorrect format")
         #function for selling the users shares
 
-      
-              
         def sell():
             #In case of pressing sell before game started do nothing
             if(len(self.y_points)==0):
@@ -552,8 +505,6 @@ class graph:
             #after selling set sold to true
             self.sold = True
 
-          
-          
         #this function handles threading 
         def gui_handler():
             #In case of start being pressed before a stock is selected
@@ -568,8 +519,6 @@ class graph:
                 self.continuePlotting = True
             #thread that runs the function of plotting
             threading.Thread(target=plotter).start()
-
-
           
         #label for the users outcome
         outcome = Label(window, textvariable=textchange, bg='white').pack(side=RIGHT, padx=80, pady=0)
@@ -592,8 +541,6 @@ class graph:
         sell_button = Button(window, text="Sell", command=sell, bg="red", fg="white")
         sell_button.pack(side=RIGHT, padx=5, pady=0)
         window.mainloop()
-
-      
       
 #Object that belongs to the graph class
 Stock_graph = graph()
@@ -601,6 +548,3 @@ Stock_graph = graph()
 Stock_AI=AI()
 #runs the app function
 Stock_graph.app()
-
-'''Stock from 2016 jan 1 to 2021 september 17 298 weeks'''
-'''TSLA, AAPL, GM,, NVDA  '''
